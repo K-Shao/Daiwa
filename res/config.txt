@@ -1,0 +1,3 @@
+subscriptionKey: e425bcfe1cd04fb59d331ace31dd4e9c
+serviceRegion: japaneast
+language: ja-JP

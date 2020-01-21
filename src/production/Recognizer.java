@@ -1,7 +1,10 @@
 package production;
 
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 
 import com.microsoft.cognitiveservices.speech.CancellationDetails;
 import com.microsoft.cognitiveservices.speech.CancellationReason;
@@ -14,7 +17,11 @@ import com.microsoft.cognitiveservices.speech.SpeechRecognizer;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
 import com.microsoft.cognitiveservices.speech.util.EventHandler;
 
+import io.BonxAudioStreamReader;
+
 public class Recognizer {
+	
+	private static Semaphore stopRecognitionSemaphore = new Semaphore(0);
 
 	public static String recognizeWavFile (Configuration config, String file) {
 		AudioConfig audioInput = AudioConfig.fromWavFileInput(file);
@@ -179,4 +186,83 @@ public class Recognizer {
 		return toReturn;
 	}
 
+	
+	
+	
+	public static void recognizeStream (Configuration config, Actor actor) throws InterruptedException, ExecutionException, IOException {
+				
+		BonxAudioStreamReader streamReader = new BonxAudioStreamReader ();	
+		AudioConfig audioInput = AudioConfig.fromStreamInput(streamReader);	
+		SpeechRecognizer recognizer = new SpeechRecognizer(config.speechConfig, config.sourceLanguageConfig, audioInput);
+		
+		{
+            // Subscribes to events.
+            recognizer.recognizing.addEventListener(new EventHandler<SpeechRecognitionEventArgs>() {
+				@Override
+				public void onEvent(Object s, SpeechRecognitionEventArgs e) {
+				    System.out.println("RECOGNIZING: Text=" + e.getResult().getText());
+				}
+			});
+
+            recognizer.recognized.addEventListener(new EventHandler<SpeechRecognitionEventArgs>() {
+				@Override
+				public void onEvent(Object s, SpeechRecognitionEventArgs e) {
+				    if (e.getResult().getReason() == ResultReason.RecognizedSpeech) {
+				        System.out.println("RECOGNIZED: Text=" + e.getResult().getText());
+				        actor.handle(e.getResult().getText());
+				        
+				    }
+				    else if (e.getResult().getReason() == ResultReason.NoMatch) {
+				        System.out.println("NOMATCH: Speech could not be recognized.");
+				    }
+				}
+			});
+
+            recognizer.canceled.addEventListener(new EventHandler<SpeechRecognitionCanceledEventArgs>() {
+				@Override
+				public void onEvent(Object s, SpeechRecognitionCanceledEventArgs e) {
+				    System.out.println("CANCELED: Reason=" + e.getReason());
+
+				    if (e.getReason() == CancellationReason.Error) {
+				        System.out.println("CANCELED: ErrorCode=" + e.getErrorCode());
+				        System.out.println("CANCELED: ErrorDetails=" + e.getErrorDetails());
+				        System.out.println("CANCELED: Did you update the subscription info?");
+				    }
+
+				    stopRecognitionSemaphore.release();
+				}
+			});
+
+            recognizer.sessionStarted.addEventListener(new EventHandler<SessionEventArgs>() {
+				@Override
+				public void onEvent(Object s, SessionEventArgs e) {
+				    System.out.println("\nSession started event.");
+				}
+			});
+
+            recognizer.sessionStopped.addEventListener(new EventHandler<SessionEventArgs>() {
+				@Override
+				public void onEvent(Object s, SessionEventArgs e) {
+				    System.out.println("\nSession stopped event.");
+
+				    // Stops translation when session stop is detected.
+				    System.out.println("\nStop translation.");
+				    stopRecognitionSemaphore.release();
+				}
+			});
+
+            // Starts continuous recognition. Uses stopContinuousRecognitionAsync() to stop recognition.
+            recognizer.startContinuousRecognitionAsync().get();
+
+            // Waits for completion.
+            stopRecognitionSemaphore.acquire();
+
+            // Stops recognition.
+            recognizer.stopContinuousRecognitionAsync().get();
+            
+            recognizer.close();
+        }
+		
+		
+	}
 }

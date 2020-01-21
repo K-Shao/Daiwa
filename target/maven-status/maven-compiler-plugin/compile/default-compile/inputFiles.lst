@@ -1,5 +1,6 @@
-/Users/kevinshao/Desktop/Java/Daiwa/src/production/Recognizer.java
-/Users/kevinshao/Desktop/Java/Daiwa/src/train/DataManager.java
-/Users/kevinshao/Desktop/Java/Daiwa/src/production/Configuration.java
-/Users/kevinshao/Desktop/Java/Daiwa/src/production/FileHandler.java
-/Users/kevinshao/Desktop/Java/Daiwa/src/Main.java
+/home/kevin/git/Daiwa/src/Main.java
+/home/kevin/git/Daiwa/src/production/FileHandler.java
+/home/kevin/git/Daiwa/src/io/BonxAudioStreamReader.java
+/home/kevin/git/Daiwa/src/production/Recognizer.java
+/home/kevin/git/Daiwa/src/production/Configuration.java
+/home/kevin/git/Daiwa/src/train/DataManager.java

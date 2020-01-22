@@ -1,21 +1,19 @@
+import db.DBConn;
 import ui.HomeScreen;
-import io.BonxAudioStreamReader;
-import production.Actor;
-import production.Configuration;
-import production.Recognizer;
 
 public class Main {
 	
     public static void main(String[] args) {
         try {
+        	DBConn.init();
         	new HomeScreen();
 //            Configuration config = new Configuration();
 //            Configuration config = new Configuration();
-            BonxAudioStreamReader basr = new BonxAudioStreamReader();
-            byte [] buffer = new byte[128];
-            basr.read(buffer);
-            System.out.println(new String(buffer));
-            System.out.println("here");
+//            BonxAudioStreamReader basr = new BonxAudioStreamReader();
+//            byte [] buffer = new byte[128];
+//            basr.read(buffer);
+//            System.out.println(new String(buffer));
+//            System.out.println("here");
 //            Recognizer.recognizeStream(config, new Actor());
             
 //            System.out.println(recognizeWavFile(config, "res/testjp.wav"));

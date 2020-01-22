@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +23,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+
+import db.DBConn;
 
 public class HomeScreen extends JFrame {
 	
@@ -37,6 +41,10 @@ public class HomeScreen extends JFrame {
 		//First, get all required data. 
 		/////////////////////////////////
 		final String [] operators = Sys.getInstance().getOperatorNames();
+		final DefaultListModel<String> operatorsListModel = new DefaultListModel<String>();
+		for (String s: operators) {
+			operatorsListModel.addElement(s);
+		}
 		this.operator = operators[0];
 		final String [] reportsHeaders = new String[] {"Date", "Entries", "Time"};
 		final Object [][] reportsInfo = new Object [][] {
@@ -55,7 +63,7 @@ public class HomeScreen extends JFrame {
 		///////////////////////////////////////////////
 		final JLabel operatorsLabel = new JLabel ("Operators: " + operators.length, JLabel.CENTER);
 		
-		final JList<String> operatorsList = new JList<String>(operators);
+		final JList<String> operatorsList = new JList<String>(operatorsListModel);
 		operatorsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		operatorsList.setLayoutOrientation(JList.VERTICAL);
 		operatorsList.setVisibleRowCount(10);
@@ -119,12 +127,19 @@ public class HomeScreen extends JFrame {
 				int result = JOptionPane.showConfirmDialog(
 					HomeScreen.this, addOperatorPanel, "Add an operator",JOptionPane.OK_CANCEL_OPTION);
 				if (result == JOptionPane.OK_OPTION) {
-					boolean addOperatorOK = Sys.getInstance().addOperator(addOperatorPanel.getOperatorName(), addOperatorPanel.getBonxID());
+					String name = addOperatorPanel.getOperatorName();
+					boolean addOperatorOK = Sys.getInstance().addOperator(name, addOperatorPanel.getBonxID());
 					if (!addOperatorOK) {
 						JOptionPane.showMessageDialog(HomeScreen.this, "Something went wrong adding this operator!");
 					}
+					operatorsListModel.addElement(name);
+					try {
+						DBConn.addOperator(name, Long.parseLong(addOperatorPanel.getBonxID()));
+					} catch (SQLException ex) {
+						System.err.println("Couldn't add operator to database!");
+					}
 				}
-				HomeScreen.this.refreshAll();
+				operatorsLabel.setText("Operators: " + operatorsListModel.size());
 			}
 		});
 		

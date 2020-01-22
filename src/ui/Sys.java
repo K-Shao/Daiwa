@@ -1,7 +1,11 @@
 package ui;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import db.DBConn;
 
 public class Sys {
 	
@@ -21,10 +25,15 @@ public class Sys {
 		} catch (Exception e) {
 			return false;
 		}
-		if (!checkOperatorOK(operatorName, id)) {
+		return addOperator (operatorName, id);
+
+	}
+	
+	public boolean addOperator (String name, long id) {
+		if (!checkOperatorOK(name, id)) {
 			return false;
 		}
-		operators.add(new Operator(operatorName, id));
+		operators.add(new Operator(name, id));
 		return true;
 	}
 	
@@ -38,7 +47,6 @@ public class Sys {
 		return true;
 	}
 	
-	
 	public String[] getOperatorNames () {
 		String [] names = new String [operators.size()];
 		for (int i = 0; i < operators.size(); i++) {
@@ -47,14 +55,50 @@ public class Sys {
 		return names;
 	}
 
+	public Operator getOperatorByName(String operator) {
+		for (Operator o: operators) {
+			if (o.getName().equals(operator)) {
+				return o;
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	public Sys () {
-		addOperator ("Op1", "12345");
-		addOperator ("Hello", "23941");
-		
+		try {
+			ResultSet operatorsRS = DBConn.getOperators();
+			while (operatorsRS.next()) {
+				String name = operatorsRS.getString("NAME");
+				long id = operatorsRS.getLong("BONX");
+				this.addOperator(name, id);
+			}
+		} catch (SQLException e) {
+			System.err.println("Couldn't load operators from database!");
+		}
+
+	
 		
 		operators.get(0).addReport();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/////////////////////
 	//Singleton methods
@@ -67,12 +111,5 @@ public class Sys {
 		return singleton;
 	}
 
-	public Operator getOperatorByName(String operator) {
-		for (Operator o: operators) {
-			if (o.getName().equals(operator)) {
-				return o;
-			}
-		}
-		return null;
-	}
+
 }

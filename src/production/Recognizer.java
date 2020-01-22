@@ -189,7 +189,7 @@ public class Recognizer {
 	
 	
 	
-	public static void recognizeStream (Configuration config, Actor actor) throws InterruptedException, ExecutionException, IOException {
+	public static void recognizeStream (Configuration config, final Actor actor) throws InterruptedException, ExecutionException, IOException {
 				
 		BonxAudioStreamReader streamReader = new BonxAudioStreamReader ();	
 		AudioConfig audioInput = AudioConfig.fromStreamInput(streamReader);	

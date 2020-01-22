@@ -15,6 +15,7 @@ public class BonxAudioStreamReader extends PullAudioInputStreamCallback {
 
 	public BonxAudioStreamReader () throws IOException {
 //		File socketFile = new File("/home/kevin/.bonx/daemons/room_10401/u-12184_ipc.sock");
+		
 //		AFUNIXSocket socket = AFUNIXSocket.newInstance();
 //		socket.connect(new AFUNIXSocketAddress(socketFile));
 //		this.stream = socket.getInputStream();

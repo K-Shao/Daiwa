@@ -7,15 +7,21 @@ public class Main {
         try {
         	DBConn.init();
         	new HomeScreen();
-//            Configuration config = new Configuration();
-//            Configuration config = new Configuration();
-//            BonxAudioStreamReader basr = new BonxAudioStreamReader();
-//            byte [] buffer = new byte[128];
-//            basr.read(buffer);
-//            System.out.println(new String(buffer));
-//            System.out.println("here");
-//            Recognizer.recognizeStream(config, new Actor());
-            
+        	
+//    		File socketFile = new File("/home/kevin/.bonx/daemons/room_10401/u_12184_ipc.sock");
+//    		UnixSocketAddress address = new UnixSocketAddress(socketFile);
+//    		UnixSocketChannel channel = UnixSocketChannel.open(address);
+//    		InputStreamReader r = new InputStreamReader(Channels.newInputStream(channel));
+//    		CharBuffer result = CharBuffer.allocate(1024);
+//    		r.read(result);
+//    		result.flip();
+//    		System.out.println("Read from server: " + result.toString());
+
+    		
+    		
+    		
+    		
+//            Configuration config = new Configuration(); 
 //            System.out.println(recognizeWavFile(config, "res/testjp.wav"));
 //            System.out.println(Recognizer.recognizeVoice(config));
 //            File temp = FileHandler.convertMP3toWAV(new File("res/sample.mp3"), new File("res/result.wav"));

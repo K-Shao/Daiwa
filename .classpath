@@ -16,8 +16,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/kevinshao/Desktop/Java/Daiwa/res/jl1.0.jar"/>
-	<classpathentry kind="lib" path="/Users/kevinshao/Desktop/Java/Daiwa/res/juds-0.95.jar"/>
-	<classpathentry kind="lib" path="/Users/kevinshao/Desktop/Java/Daiwa/res/sqlite-jdbc-3.30.1.jar"/>
+	<classpathentry kind="lib" path="res/jl1.0.jar"/>
+	<classpathentry kind="lib" path="res/juds-0.95.jar"/>
+	<classpathentry kind="lib" path="res/sqlite-jdbc-3.30.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

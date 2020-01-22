@@ -16,8 +16,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/kevinshao/Desktop/Java/Daiwa/res/jl1.0.jar"/>
-	<classpathentry kind="lib" path="/Users/kevinshao/Desktop/Java/Daiwa/res/junixsocket-native-common-2.3.1.jar"/>
-	<classpathentry kind="lib" path="/Users/kevinshao/Desktop/Java/Daiwa/res/junixsocket-core-2.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/kevin/git/Daiwa/res/jl1.0.jar"/>
+	<classpathentry kind="lib" path="/home/kevin/git/Daiwa/res/juds-0.95.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

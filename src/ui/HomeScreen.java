@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -11,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,8 +28,15 @@ public class HomeScreen extends JFrame {
 	
 	public HomeScreen () {
 		super();
+		this.refreshAll();
+	}
+	
+	@SuppressWarnings("serial")
+	public void refreshAll () {
+		/////////////////////////////////
 		//First, get all required data. 
-		final String [] operators = new String[] {"Operator 1", "Operator 2", "Operator 3"};
+		/////////////////////////////////
+		final String [] operators = Sys.getInstance().getOperatorNames();
 		this.operator = operators[0];
 		final String [] reportsHeaders = new String[] {"Date", "Entries", "Time"};
 		final Object [][] reportsInfo = new Object [][] {
@@ -35,10 +45,14 @@ public class HomeScreen extends JFrame {
 			{"1/22/2020", 10, "5:23-9:31"}
 		};		
 		
+		////////////////////////////////////////////
 		//Now, create all the elements of our UI. 
+		////////////////////////////////////////////
 		final JLabel titleLabel = new JLabel("Cutoff Reports", JLabel.CENTER);
 		
+		///////////////////////////////////////////////
 		//Here are the elements for the operator panel. 
+		///////////////////////////////////////////////
 		final JLabel operatorsLabel = new JLabel ("Operators: " + operators.length, JLabel.CENTER);
 		
 		final JList<String> operatorsList = new JList<String>(operators);
@@ -48,11 +62,14 @@ public class HomeScreen extends JFrame {
 		operatorsList.setSelectedIndex(0);
 		
 		final JButton addOperator = new JButton ("Add operator...");
+		final AddOperatorPanel addOperatorPanel = new AddOperatorPanel();
 		
 		final JScrollPane operatorsListScroller = new JScrollPane(operatorsList);
 		operatorsListScroller.setPreferredSize(new Dimension(250, 80));
 		
+		///////////////////////////////////////////////////
 		//Here are all the elements for the report panel. 
+		///////////////////////////////////////////////////
 		final JLabel reportsTitle = new JLabel ("Daily Reports: " + operatorsList.getSelectedValue(), JLabel.CENTER);
 		
 		final JTable reportsTable = new JTable(reportsInfo, reportsHeaders);
@@ -64,11 +81,12 @@ public class HomeScreen extends JFrame {
 		};
 		reportsTable.setModel(uneditableTableModel);
 
-		
 		final JScrollPane reportsScrollPane = new JScrollPane(reportsTable);
 		reportsTable.setFillsViewportHeight(true);
 		
+		/////////////////////////////////////////////////
 		//Now, add listeners to any elements that need it. 
+		/////////////////////////////////////////////////
 		operatorsList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged (ListSelectionEvent e) {
@@ -79,20 +97,40 @@ public class HomeScreen extends JFrame {
 		});
 		
 		reportsTable.addMouseListener(new MouseAdapter() {
+			@Override
 		    public void mousePressed(MouseEvent mouseEvent) {
 		        JTable table =(JTable) mouseEvent.getSource();
 		        Point point = mouseEvent.getPoint();
 		        int row = table.rowAtPoint(point);
 		        if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-		            new ReportViewer(HomeScreen.this.operator, row);
+		        	Operator operator = Sys.getInstance().getOperatorByName(HomeScreen.this.operator);
+		        	if (operator == null) {
+		        		System.err.println("Attempting to show report,  but operator is null!");
+		        	} else {
+			        	new ReportViewer(operator, row);
+		        	}
 		        }
 		    }
 		});
 		
+		addOperator.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(
+					HomeScreen.this, addOperatorPanel, "Add an operator",JOptionPane.OK_CANCEL_OPTION);
+				if (result == JOptionPane.OK_OPTION) {
+					boolean addOperatorOK = Sys.getInstance().addOperator(addOperatorPanel.getOperatorName(), addOperatorPanel.getBonxID());
+					if (!addOperatorOK) {
+						JOptionPane.showMessageDialog(HomeScreen.this, "Something went wrong adding this operator!");
+					}
+				}
+				HomeScreen.this.refreshAll();
+			}
+		});
 		
-		//////////////////////////////// Next, add all the elements to their proper panels. 
-		////////////////////////////////
-		////////////////////////////////
+		////////////////////////////////////////////////////
+		//Next, add all the elements to their proper panels. 
+		////////////////////////////////////////////////////
 		
 		JPanel operatorsPanel = new JPanel();
 		operatorsPanel.setLayout(new BorderLayout());
@@ -107,7 +145,9 @@ public class HomeScreen extends JFrame {
 		reportsList.add(reportsScrollPane, BorderLayout.CENTER);
 		reportsList.setBackground(Color.GREEN);
 
+		///////////////////////////////////////
 		//Lastly, add the panels to the frame. 
+		///////////////////////////////////////
 		this.setLayout(new BorderLayout());
 //		this.add(titleLabel, BorderLayout.PAGE_START);
 		this.add(operatorsPanel, BorderLayout.LINE_START);

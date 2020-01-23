@@ -81,7 +81,7 @@ public class Recognizer {
             recognizer.recognizing.addEventListener(new EventHandler<SpeechRecognitionEventArgs>() {
 				@Override
 				public void onEvent(Object s, SpeechRecognitionEventArgs e) {
-				    System.out.println("RECOGNIZING: Text=" + e.getResult().getText());
+//				    System.out.println("RECOGNIZING: Text=" + e.getResult().getText());
 				}
 			});
 
@@ -189,9 +189,9 @@ public class Recognizer {
 	
 	
 	
-	public static void recognizeStream (Configuration config, final Actor actor) throws InterruptedException, ExecutionException, IOException {
+	public static void recognizeStream (BonxAudioStreamReader streamReader, Configuration config, final Actor actor) throws InterruptedException, ExecutionException, IOException {
 				
-		BonxAudioStreamReader streamReader = new BonxAudioStreamReader ();	
+//		BonxAudioStreamReader streamReader = new BonxAudioStreamReader ();	
 		AudioConfig audioInput = AudioConfig.fromStreamInput(streamReader);	
 		SpeechRecognizer recognizer = new SpeechRecognizer(config.speechConfig, config.sourceLanguageConfig, audioInput);
 		

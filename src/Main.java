@@ -11,17 +11,27 @@ public class Main {
 //    		File socketFile = new File("/home/kevin/.bonx/daemons/room_10401/u_12184_ipc.sock");
 //    		UnixSocketAddress address = new UnixSocketAddress(socketFile);
 //    		UnixSocketChannel channel = UnixSocketChannel.open(address);
-//    		InputStreamReader r = new InputStreamReader(Channels.newInputStream(channel));
-//    		CharBuffer result = CharBuffer.allocate(1024);
-//    		r.read(result);
-//    		result.flip();
-//    		System.out.println("Read from server: " + result.toString());
+//    		channel.setKeepAlive(true);
+//    		InputStream is = Channels.newInputStream(channel);
+//    		byte[] header = new byte[17];
+//    		is.read(header);
 
+//    		byte [] body = new byte[(int) bodyLength];
+//    		is.read(body);
+//    		for (byte b: body) {
+//    			System.out.println(b);
+//    		}
     		
-    		
-    		
-    		
-            Configuration config = new Configuration(); 
+//            Configuration config = new Configuration(); 
+//            BonxAudioStreamReader basr = new BonxAudioStreamReader();
+//            System.out.println(basr.readHeader());
+//            
+//            Recognizer.recognizeStream(basr, config, new Actor());
+//            System.out.println("here");
+            
+            
+            
+            
 //            System.out.println(recognizeWavFile(config, "res/testjp.wav"));
             System.out.println(Recognizer.recognizeVoice(config));
 //            File temp = FileHandler.convertMP3toWAV(new File("res/sample.mp3"), new File("res/result.wav"));
@@ -30,8 +40,7 @@ public class Main {
         } catch (Exception e) {
 			e.printStackTrace();
 		} 
-
-    	    
-    	
     }
+    
+
 }

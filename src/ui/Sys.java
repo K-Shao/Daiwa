@@ -64,13 +64,25 @@ public class Sys {
 		return null;
 	}
 	
+	public void addReport (Operator operator, String date) throws SQLException{
+		operator.addReport(date);
+	}
 	
+	public Object[][] getReportsFor(String operator) {
+		List<Report> reports = getOperatorByName(operator).getReports();
+		
+		Object [][] result = new Object[reports.size()][];
+		
+		for (int i = 0; i < reports.size(); i++) {
+			Report current = reports.get(i);
+			result[i] = new Object[3];
+			result[i][0] = current.getDate();
+			result[i][1] = current.getNumEntries();
+		}
+		return result;
+	}
 	
-	
-	
-	
-	
-	
+
 	public Sys () {
 		try {
 			ResultSet operatorsRS = DBConn.getOperators();
@@ -79,27 +91,27 @@ public class Sys {
 				long id = operatorsRS.getLong("BONX");
 				this.addOperator(name, id);
 			}
+			operatorsRS.close();
+			
 		} catch (SQLException e) {
 			System.err.println("Couldn't load operators from database!");
 		}
-
-	
 		
-		operators.get(0).addReport();
+		for (Operator operator: operators) {
+			try {
+				ResultSet reportsRS = DBConn.getReports(operator.getName());
+				while (reportsRS.next()) {
+					String date = reportsRS.getString("DATE");
+					this.addReport(operator, date);
+				}
+				operator.loadReports();
+			} catch (SQLException e) {
+				System.err.println("Couldn't load reports for " + operator.getName());
+			}
+		}
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/////////////////////
 	//Singleton methods
 	/////////////////////
@@ -110,6 +122,8 @@ public class Sys {
 		}
 		return singleton;
 	}
+
+
 
 
 }

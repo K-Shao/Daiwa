@@ -46,12 +46,7 @@ public class HomeScreen extends JFrame {
 			operatorsListModel.addElement(s);
 		}
 		this.operator = operators[0];
-		final String [] reportsHeaders = new String[] {"Date", "Entries", "Time"};
-		final Object [][] reportsInfo = new Object [][] {
-			{"1/20/2020", 7, "8:03-11:27"}, 
-			{"1/21/2020", 4, "13:20 -14:00"},
-			{"1/22/2020", 10, "5:23-9:31"}
-		};		
+		final ReportsTableModel reportsTableModel = new ReportsTableModel(this.operator);
 		
 		////////////////////////////////////////////
 		//Now, create all the elements of our UI. 
@@ -79,15 +74,7 @@ public class HomeScreen extends JFrame {
 		//Here are all the elements for the report panel. 
 		///////////////////////////////////////////////////
 		final JLabel reportsTitle = new JLabel ("Daily Reports: " + operatorsList.getSelectedValue(), JLabel.CENTER);
-		
-		final JTable reportsTable = new JTable(reportsInfo, reportsHeaders);
-		DefaultTableModel uneditableTableModel = new DefaultTableModel(reportsInfo, reportsHeaders) {
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
-		};
-		reportsTable.setModel(uneditableTableModel);
+		final JTable reportsTable = new JTable(reportsTableModel);
 
 		final JScrollPane reportsScrollPane = new JScrollPane(reportsTable);
 		reportsTable.setFillsViewportHeight(true);
@@ -100,6 +87,8 @@ public class HomeScreen extends JFrame {
 			public void valueChanged (ListSelectionEvent e) {
 				String operator = operatorsList.getSelectedValue();
 				reportsTitle.setText("Daily Reports: " + operator);
+				((ReportsTableModel) reportsTable.getModel()).setData(operator);
+				reportsTable.repaint();
 				HomeScreen.this.operator = operator;
 			}
 		});

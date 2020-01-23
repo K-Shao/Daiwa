@@ -1,16 +1,12 @@
-import java.sql.ResultSet;
-
-import db.DBConn;
-import ui.HomeScreen;
+import production.Configuration;
+import production.Recognizer;
 
 public class Main {
 	
     public static void main(String[] args) {
         try {
-
-        	
-        	DBConn.init();
-        	new HomeScreen();
+//        	DBConn.init();
+//        	new HomeScreen();
         	
 //    		File socketFile = new File("/home/kevin/.bonx/daemons/room_10401/u_12184_ipc.sock");
 //    		UnixSocketAddress address = new UnixSocketAddress(socketFile);
@@ -26,6 +22,9 @@ public class Main {
 //    			System.out.println(b);
 //    		}
     		
+<<<<<<< HEAD
+            Configuration config = new Configuration(); 
+=======
 //            Configuration config = new Configuration(); 
 //            BonxAudioStreamReader basr = new BonxAudioStreamReader();
 //            System.out.println(basr.readHeader());
@@ -36,8 +35,9 @@ public class Main {
             
             
             
+>>>>>>> a19915522602ddd85d97477a7693f82c5d04e75d
 //            System.out.println(recognizeWavFile(config, "res/testjp.wav"));
-//            System.out.println(Recognizer.recognizeVoice(config));
+            System.out.println(Recognizer.recognizeVoice(config));
 //            File temp = FileHandler.convertMP3toWAV(new File("res/sample.mp3"), new File("res/result.wav"));
 //            DataManager.generateDirectories("train/sorted_audio", "train/utterances.txt");
 //            DataManager.generateTransFile("train/sorted_audio", "train/all_audio", "train/utterances.txt");

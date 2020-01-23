@@ -51,5 +51,7 @@ public class DBConn {
 		ps.setLong(2, bonxID);
 		ps.executeUpdate();
 	}
+	
+	
 
 }

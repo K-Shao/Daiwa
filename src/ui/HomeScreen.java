@@ -49,7 +49,7 @@ public class HomeScreen extends JFrame {
 		final String [] reportsHeaders = new String[] {"Date", "Entries", "Time"};
 		final Object [][] reportsInfo = new Object [][] {
 			{"1/20/2020", 7, "8:03-11:27"}, 
-			{"1/21/2020", 4, "13:20-14:00"},
+			{"1/21/2020", 4, "13:20 -14:00"},
 			{"1/22/2020", 10, "5:23-9:31"}
 		};		
 		

@@ -18,12 +18,7 @@ public class ReportViewer extends JFrame {
 		
 		ReportTableModel rtm = new ReportTableModel(report);
 	
-//		final Object [][] reportData = new Object[][] {
-//			{5274309, "Scaffolding", "48.6 x 1.2 x 4000", 48.43, 48.35, 48.57, 0, 0, 0, 0, "4040 ± 4", "OK", "OK", "OK", "OK", "13:15"},
-//			{5274310, "Scaffolding", "48.6 x 1.2 x 4000", 48.43, 48.35, 48.57, 0, 0, 0, 0, "4040 ± 4", "OK", "OK", "OK", "OK", "13:15"},
-//		};
-		
-		JLabel titleLabel = new JLabel("Report by: " + operator.getName() + " on " + report.getDate(), JLabel.CENTER);
+		JLabel titleLabel = new JLabel("Report by: " + operator.getName() + " on: " + report.getDate(), JLabel.CENTER);
 		
 		JTable reportTable = new JTable (rtm);
 		final JScrollPane reportScrollPane = new JScrollPane(reportTable);

@@ -3,6 +3,8 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +22,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -64,7 +69,8 @@ public class HomeScreen extends JFrame {
 		operatorsList.setVisibleRowCount(10);
 		operatorsList.setSelectedIndex(0);
 		
-		final JButton addOperator = new JButton ("Add operator...");
+		final JButton addOperator = new JButton ("Add operator..."); 
+		final JButton deleteOperator = new JButton ("Delete operator...");
 		final AddOperatorPanel addOperatorPanel = new AddOperatorPanel();
 		
 		final JScrollPane operatorsListScroller = new JScrollPane(operatorsList);
@@ -132,6 +138,44 @@ public class HomeScreen extends JFrame {
 			}
 		});
 		
+		deleteOperator.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DeleteOperatorPanel1 dop1 = new DeleteOperatorPanel1();
+				int result = JOptionPane.showConfirmDialog(HomeScreen.this, dop1, "Delete an operator", JOptionPane.OK_CANCEL_OPTION);
+				if (result == JOptionPane.OK_OPTION) {
+					String name = dop1.getOperatorName();
+					Operator op = null;
+					if ((op = Sys.getInstance().getOperatorByName(name)) != null) {
+						if (op.getReports().size() == 0) { //Just delete if there are no reports. 
+							try {
+								DBConn.deleteOperator(name, op.getBonxID());
+								operatorsListModel.removeElement(name);
+								JOptionPane.showMessageDialog(HomeScreen.this, "Deletion successful!");
+							} catch (SQLException ex) {
+								JOptionPane.showMessageDialog(HomeScreen.this, "Deletion failed - unknown reason.");
+							}
+						} else { //Require BONX ID if there are reports. 
+							DeleteOperatorPanel2 dop2 = new DeleteOperatorPanel2(name);
+							int result2 = JOptionPane.showConfirmDialog(HomeScreen.this, dop2, "Enter BONX ID", JOptionPane.OK_CANCEL_OPTION);
+							if (result2 == JOptionPane.OK_OPTION && op.getBonxID() == dop2.getID()) {
+								try {
+									DBConn.deleteOperator(name, op.getBonxID());
+									operatorsListModel.removeElement(name);
+								} catch (SQLException ex) {
+									JOptionPane.showMessageDialog(HomeScreen.this, "Deletion failed - unknown reason.");
+								}
+							} else {
+								JOptionPane.showMessageDialog(HomeScreen.this, "Deletion refused - no BONX ID");
+							}
+						}
+					} else {
+						JOptionPane.showMessageDialog(HomeScreen.this, "No operator by that name!");
+					}
+				}
+			}
+		});
+		
 		////////////////////////////////////////////////////
 		//Next, add all the elements to their proper panels. 
 		////////////////////////////////////////////////////
@@ -140,7 +184,10 @@ public class HomeScreen extends JFrame {
 		operatorsPanel.setLayout(new BorderLayout());
 		operatorsPanel.add(operatorsLabel, BorderLayout.PAGE_START);
 		operatorsPanel.add(operatorsListScroller, BorderLayout.CENTER);
-		operatorsPanel.add(addOperator, BorderLayout.PAGE_END);
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.add(addOperator);
+		buttonsPanel.add(deleteOperator);
+		operatorsPanel.add(buttonsPanel, BorderLayout.PAGE_END);
 		operatorsPanel.setBackground(Color.RED);
 		
 		JPanel reportsList = new JPanel();
@@ -165,6 +212,74 @@ public class HomeScreen extends JFrame {
 		this.setVisible(true);
 	}
 
+	private class DeleteOperatorPanel1 extends JPanel{
+		
+		private JTextField nameInput;
+		
+		public DeleteOperatorPanel1() {
+			super();
+
+			JLabel titleLabel = new JLabel ("Delete Operator");
+			JLabel nameLabel = new JLabel ("Name: ");
+			
+			nameInput = new JTextField (10);
+			
+			this.setLayout(new GridBagLayout());
+			
+			GridBagConstraints c = new GridBagConstraints();
+			
+			c.gridx=0; c.gridy=0;
+			c.gridwidth = 2;
+			this.add(titleLabel,c);
+			c.gridy++;
+			c.gridwidth = 1;
+			this.add(nameLabel,c);
+			c.gridx++;
+			this.add(nameInput,c);
+		}
+		
+		public String getOperatorName() {
+			return nameInput.getText();
+		}
+		
+	}
 	
+	private class DeleteOperatorPanel2 extends JPanel{
+		
+		private JTextField idInput;
+		private String name;
+		
+		public DeleteOperatorPanel2(String name) {
+			super();
+
+			this.name = name;
+			JLabel titleLabel = new JLabel ("The operator you're trying to delete has reports. Please enter BONX ID to confirm deletion. ");
+			JLabel idLabel = new JLabel (name + "'s ID: ");
+			
+			idInput = new JTextField (10);
+			
+			this.setLayout(new GridBagLayout());
+			
+			GridBagConstraints c = new GridBagConstraints();
+			
+			c.gridx=0; c.gridy=0;
+			c.gridwidth = 2;
+			this.add(titleLabel,c);
+			c.gridy++;
+			c.gridwidth = 1;
+			this.add(idLabel,c);
+			c.gridx++;
+			this.add(idInput,c);
+		}
+		
+		public long getID() {
+			try {
+				return Long.parseLong(idInput.getText());
+			} catch (NumberFormatException e) {
+				return -1;
+			}
+		}
+		
+	}
 	
 }

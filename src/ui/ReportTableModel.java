@@ -38,16 +38,22 @@ public class ReportTableModel extends AbstractTableModel {
 		case 8: return e.t2; 
 		case 9: return e.t3; 
 		case 10: return e.length;
-		case 11: return e.bead; 
-		case 12: return e.flat + "(" + e.flatSize + ")"; 
-		case 13: return e.bend; 
-		case 14: return e.appearance; 
+		case 11: return toYesNo(e.bead); 
+		case 12: return toYesNo(e.flat) + "(" + e.flatSize + ")"; 
+		case 13: return toYesNo(e.bend); 
+		case 14: return toYesNo(e.appearance); 
 		case 15: return e.time; 
 		}
 		return null;
 	}
 	
-	
+	private static String toYesNo (int status) {
+		switch (status) {
+		case 1: return "OK";
+		case 2: return "NOT OK";
+		default: return "PEND";
+		}
+	}
 	
     @Override
     public String getColumnName(int index) {

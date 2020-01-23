@@ -1,7 +1,7 @@
-import java.sql.ResultSet;
-
 import db.DBConn;
+import parsing.Parser;
 import ui.HomeScreen;
+import ui.Sys;
 
 public class Main {
 	
@@ -10,6 +10,10 @@ public class Main {
 
         	
         	DBConn.init();
+        	Parser.load();
+//        	String test = "D1は二五三です";
+//        	String [] result = Parser.parseBasicForm(Parser.useHardDictionary(test));
+//        	for (String s: result) {System.out.println(s);}
         	new HomeScreen();
         	
 //    		File socketFile = new File("/home/kevin/.bonx/daemons/room_10401/u_12184_ipc.sock");

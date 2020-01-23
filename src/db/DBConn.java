@@ -91,6 +91,7 @@ public class DBConn {
 			entry.t1 = rs.getString("T1");
 			entry.t2 = rs.getString("T2");
 			entry.t3 = rs.getString("T3");
+			entry.length = rs.getString("LENGTH");
 			entry.size1 = rs.getString("SIZE1");
 			entry.size2 = rs.getString("SIZE2");
 			entry.size3 = rs.getString("SIZE3");
@@ -102,6 +103,13 @@ public class DBConn {
 		}
 		
 		return result;
+	}
+
+	public static void deleteOperator(String name, long bonxID) throws SQLException{
+		PreparedStatement ps = connection.prepareStatement("DELETE FROM OPERATORS WHERE NAME = ? AND BONX = ?;");
+		ps.setString(1, name);
+		ps.setLong(2, bonxID);
+		ps.executeUpdate();
 	}
 	
 	

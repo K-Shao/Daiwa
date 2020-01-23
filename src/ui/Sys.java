@@ -26,7 +26,6 @@ public class Sys {
 			return false;
 		}
 		return addOperator (operatorName, id);
-
 	}
 	
 	public boolean addOperator (String name, long id) {

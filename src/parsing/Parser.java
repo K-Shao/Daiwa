@@ -13,24 +13,6 @@ public class Parser {
 	
 	private static Map<String, String> hardDictionary = new HashMap <String, String> ();
 	
-	public static String useHardDictionary (String input) {
-		for (String key: hardDictionary.keySet()) {
-			input = input.replaceAll(key, hardDictionary.get(key));
-		}
-		return input;
-	}
-	
-	public static String [] parseBasicForm (String input) {
-		String [] arr = input.split("は");
-		if (input.contains("は") && arr[1]!=null) {
-			if (arr[1].contains("です")) {
-				arr[1] = arr[1].split("です")[0];
-			}
-		}
-		return arr;
-		
-	}
-
 	public static void load() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader("./res/hard_dictionary.txt"));
 		String line = null;
@@ -39,6 +21,49 @@ public class Parser {
 			hardDictionary.put(arr[0].trim(), arr[1].trim());
 		}
 		br.close();
+	}
+	
+	public static String useHardDictionary (String input) {
+		for (String key: hardDictionary.keySet()) {
+			input = input.replaceAll(key, hardDictionary.get(key));
+		}
+		return input;
+	}
+	
+	public static String [] parseBasicForm (String input) {
+		String [] arr = input.split("は", 2);
+		if (input.contains("は") && arr[1]!=null) {
+			if (arr[1].contains("です")) {
+				arr[1] = arr[1].split("です")[0];
+			}
+		}
+		return arr;
+	}
+	
+	private static String [] splitSentences (String input) {
+		return input.split("そして");
+	}
+	
+	private static String refineValue(String key, String value) {
+		if (key.equals("D1") || key.equals("D2") || key.equals("D3") || key.equals("D4")) {
+			if (value.length() == 4) {
+				return value.substring(0, 2) + "." + value.substring(2, 4);
+			}
+		}
+		
+		if (key.equals("T1") || key.equals("T2") || key.equals("T3")) {
+			if (value.charAt(0)=='.') {
+				return "1" + value;
+			}
+		}
+		
+		if (key.equals("長さ")) {
+			if (value.contains("meter")) {
+				return value.split("meter")[0] + "000";
+			}
+		}
+		
+		return value;
 	}
 
 	/**
@@ -49,11 +74,23 @@ public class Parser {
 	 */
 	public static String interpret(String speech, BonxHeader header) {
 		speech = useHardDictionary(speech);
-		String [] action = parseBasicForm (speech);
-		if (action.length != 1) {
-			Sys.getInstance().set(action[0], action[1], header);
-		}
-		return "はい, " + speech;
-	}
+		String [] sentences = splitSentences(speech);
+		StringBuilder feedback = new StringBuilder ("はい");
+		
+		for (int i = 0; i < sentences.length; i++) {
+			String sentence = sentences[i];
+			String [] action = parseBasicForm (sentence);
+			if (action.length != 1) {
+				String value = refineValue (action[0], action[1]);
+				feedback.append(Sys.getInstance().set(action[0], value, header));
+			} else {
+				feedback.append(Sys.getInstance().set(sentence, header));
+			}
 
+			if (i != sentences.length - 1) {
+				feedback.append("そして");
+			}
+		}
+		return "はい, " + feedback.toString();
+	}
 }

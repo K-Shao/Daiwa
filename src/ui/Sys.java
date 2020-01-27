@@ -98,13 +98,23 @@ public class Sys {
 		return result;
 	}
 	
+	/**
+	 * Overloaded for sentences that don't fit the basic form from Parser. 
+	 * @param sentence
+	 * @param header
+	 * @return Feedback string
+	 */
+	public String set(String sentence, BonxHeader header) {
+		return sentence;
+	}
 	
-	public void set(String key, String val, BonxHeader header) {
+	
+	public String set(String key, String val, BonxHeader header) {
 		Operator operator = getOperatorById(header.getId());
 		//Maybe something like key = Parser.reduce(key) ???
 		if (operator == null) {
 			System.err.println("Operator was null in set operation.");
-			return;
+			return "";
 		}
 		try {
 			if (key.equals("lot")) {
@@ -128,6 +138,7 @@ public class Sys {
 			System.err.println("SQLException when writing");
 			e.printStackTrace();
 		}
+		return key + "は" + val + "です";
 
 	}
 
@@ -177,4 +188,6 @@ public class Sys {
 		}
 		return singleton;
 	}
+
+
 }

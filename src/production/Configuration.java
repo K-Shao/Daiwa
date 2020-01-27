@@ -42,6 +42,7 @@ public class Configuration {
 			throw new ConfigurationException("Configuration file not found! File name: " + configFile.getAbsolutePath());
 		}
 		speechConfig = SpeechConfig.fromSubscription(speechSubscriptionKey, serviceRegion);
+		speechConfig.setSpeechSynthesisLanguage(language);
 		sourceLanguageConfig = SourceLanguageConfig.fromLanguage(language);
 		
 		if (speechConfig == null) {

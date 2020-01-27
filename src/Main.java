@@ -13,8 +13,6 @@ public class Main {
         	
         	DBConn.init();
         	Parser.load();
-        	Synthesizer.speak("おはようございます", Sys.getInstance().getConfiguration());
-        	System.exit(0);
         	HomeScreen hs = new HomeScreen();
         	new Thread(new BonxTester(hs)).run();
 

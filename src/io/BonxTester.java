@@ -19,7 +19,9 @@ import javax.sound.sampled.AudioSystem;
 import jnr.unixsocket.UnixSocketAddress;
 import jnr.unixsocket.UnixSocketChannel;
 import parsing.Parser;
+import production.Actor;
 import production.Recognizer;
+import production.Synthesizer;
 import ui.HomeScreen;
 import ui.Sys;
 
@@ -94,28 +96,13 @@ public class BonxTester implements Runnable {
 
 	@Override
 	public void run() {
-		initBonx();
-		
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		Parser.interpret("lotは24680です", new BonxHeader(1, 0, 15312, 0));
-		Parser.interpret("D1は48.39です", new BonxHeader(1, 0, 15312, 0));
-		Parser.interpret("D2は48.33です", new BonxHeader(1, 0, 15312, 0));
-		Parser.interpret("D3は48.34です", new BonxHeader(1, 0, 15311, 0));
-		Parser.interpret("D4は48.35です", new BonxHeader(1, 0, 15312, 0));
-		hs.repaintAll();
-		
+		initBonx();		
 		while (true) {	
 			try {
 				Object [] result = testBonx ();
 				String speech = (String) result [0];
 				BonxHeader header = (BonxHeader) result[1];
-				Parser.interpret(speech, header);
-				hs.repaintAll();
+				new Actor(speech, header, hs).run();
 			} catch (IOException | InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}

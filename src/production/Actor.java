@@ -1,14 +1,36 @@
 package production;
 
-public class Actor {
+import java.util.concurrent.ExecutionException;
+
+import io.BonxHeader;
+import parsing.Parser;
+import ui.HomeScreen;
+import ui.Sys;
+
+public class Actor implements Runnable{
 	
-	public void handle (String text) {
-		System.out.println("I think you said: " + text);
-		System.out.println("I think this means: " + Interpreter.interpret(text));
+	private String speech;
+	private BonxHeader header;
+	private HomeScreen hs;
+	
+	public Actor (String speech, BonxHeader header, HomeScreen hs) {
+		this.speech = speech;
+		this.header = header;
+		this.hs = hs;
 	}
-	
-	public Actor () {
-		
+
+	@Override
+	public void run() {
+		try {
+			Synthesizer.speak(Parser.interpret(speech, header), Sys.getInstance().getConfiguration());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hs.repaintAll();
 	}
 
 }

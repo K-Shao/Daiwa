@@ -41,12 +41,19 @@ public class Parser {
 		br.close();
 	}
 
-	public static void interpret(String speech, BonxHeader header) {
+	/**
+	 * 
+	 * @param speech
+	 * @param header
+	 * @return Confirmation text to say. 
+	 */
+	public static String interpret(String speech, BonxHeader header) {
 		speech = useHardDictionary(speech);
 		String [] action = parseBasicForm (speech);
 		if (action.length != 1) {
 			Sys.getInstance().set(action[0], action[1], header);
 		}
+		return "はい, " + speech;
 	}
 
 }

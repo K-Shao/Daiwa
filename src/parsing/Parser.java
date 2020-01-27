@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.BonxHeader;
+import ui.Sys;
+
 public class Parser {
 	
 	private static Map<String, String> hardDictionary = new HashMap <String, String> ();
@@ -36,6 +39,14 @@ public class Parser {
 			hardDictionary.put(arr[0].trim(), arr[1].trim());
 		}
 		br.close();
+	}
+
+	public static void interpret(String speech, BonxHeader header) {
+		speech = useHardDictionary(speech);
+		String [] action = parseBasicForm (speech);
+		if (action.length != 1) {
+			Sys.getInstance().set(action[0], action[1], header);
+		}
 	}
 
 }

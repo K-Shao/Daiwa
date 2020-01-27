@@ -5,12 +5,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.ConfigurationException;
+
 import db.DBConn;
+import io.BonxHeader;
+import production.Configuration;
 
 public class Sys {
 	
 	
 	private List<Operator> operators = new ArrayList<Operator>();
+	private Configuration config;
+	public Configuration getConfiguration () {
+		return this.config;
+	}
 
 	/**
 	 * 
@@ -63,6 +71,15 @@ public class Sys {
 		return null;
 	}
 	
+	private Operator getOperatorById(int id) {
+		for (Operator o: operators) {
+			if (o.getBonxID() == id) {
+				return o;
+			}
+		}
+		return null;
+	}
+	
 	public void addReport (Operator operator, String date) throws SQLException{
 		operator.addReport(date);
 	}
@@ -81,8 +98,47 @@ public class Sys {
 		return result;
 	}
 	
+	
+	public void set(String key, String val, BonxHeader header) {
+		Operator operator = getOperatorById(header.getId());
+		//Maybe something like key = Parser.reduce(key) ???
+		if (operator == null) {
+			System.err.println("Operator was null in set operation.");
+			return;
+		}
+		try {
+			if (key.equals("lot")) {
+				if (operator.setCurrentLot(val)) {
+					System.out.println("Successful lot set to " + val);
+				} else {
+					System.out.println("Unsuccessful lot set: " + val);
+				}
+				
+			} else {
+				if (operator.getCurrentEntry() != null) {
+					if (Entry.COLUMNS.contains(key)) {
+						DBConn.update(operator, key, val);
+						operator.update(key, val);
+					}
+				}
+			}
+
+
+		} catch (SQLException e) {
+			System.err.println("SQLException when writing");
+			e.printStackTrace();
+		}
+
+	}
+
 
 	public Sys () {
+		try {
+			this.config = new Configuration ();
+		} catch (ConfigurationException e1) {
+			System.err.println("Couldn't load config.txt file!");
+		}
+		
 		try {
 			ResultSet operatorsRS = DBConn.getOperators();
 			while (operatorsRS.next()) {
@@ -121,8 +177,4 @@ public class Sys {
 		}
 		return singleton;
 	}
-
-
-
-
 }

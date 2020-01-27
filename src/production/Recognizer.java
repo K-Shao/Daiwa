@@ -15,9 +15,8 @@ import com.microsoft.cognitiveservices.speech.SpeechRecognitionEventArgs;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionResult;
 import com.microsoft.cognitiveservices.speech.SpeechRecognizer;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
+import com.microsoft.cognitiveservices.speech.audio.PullAudioInputStreamCallback;
 import com.microsoft.cognitiveservices.speech.util.EventHandler;
-
-import io.BonxAudioStreamReader;
 
 public class Recognizer {
 	
@@ -189,7 +188,7 @@ public class Recognizer {
 	
 	
 	
-	public static void recognizeStream (BonxAudioStreamReader streamReader, Configuration config, final Actor actor) throws InterruptedException, ExecutionException, IOException {
+	public static void recognizeStream (PullAudioInputStreamCallback streamReader, Configuration config, final Actor actor) throws InterruptedException, ExecutionException, IOException {
 				
 //		BonxAudioStreamReader streamReader = new BonxAudioStreamReader ();	
 		AudioConfig audioInput = AudioConfig.fromStreamInput(streamReader);	

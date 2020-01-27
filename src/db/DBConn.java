@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ui.Entry;
+import ui.Operator;
 
 public class DBConn {
 	
@@ -109,6 +110,15 @@ public class DBConn {
 		PreparedStatement ps = connection.prepareStatement("DELETE FROM OPERATORS WHERE NAME = ? AND BONX = ?;");
 		ps.setString(1, name);
 		ps.setLong(2, bonxID);
+		ps.executeUpdate();
+	}
+
+	public static void update(Operator operator, String key, String val) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("UPDATE ENTRIES SET "+key+" = ? WHERE OPERATOR = ? AND LOT = ? AND TIME = ?;");
+		ps.setString(1, val);
+		ps.setString(2, operator.getName());
+		ps.setLong(3, Long.parseLong(operator.getCurrentLot()));
+		ps.setString(4, operator.getCurrentTime());
 		ps.executeUpdate();
 	}
 	

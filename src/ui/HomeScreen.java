@@ -11,8 +11,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,20 +25,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 
 import db.DBConn;
 
 public class HomeScreen extends JFrame {
 	
 	private String operator;
+	private List<ReportViewer> reportViewers = new ArrayList<ReportViewer>();
 	
 	public HomeScreen () {
 		super();
 		this.refreshAll();
+	}
+	
+	public void repaintAll() {
+		this.repaint();
+		for (ReportViewer rv: reportViewers) {
+			rv.repaint();
+		}
 	}
 	
 	@SuppressWarnings("serial")
@@ -110,7 +117,7 @@ public class HomeScreen extends JFrame {
 		        	if (operator == null) {
 		        		System.err.println("Attempting to show report,  but operator is null!");
 		        	} else {
-			        	new ReportViewer(operator, row);
+			        	reportViewers.add(new ReportViewer(operator, row));
 		        	}
 		        }
 		    }

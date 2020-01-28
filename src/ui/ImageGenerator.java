@@ -36,31 +36,33 @@ public class ImageGenerator {
 	private static void drawText(Graphics g, Report report) {
 		int y = 290;
 		for (Entry e: report.getEntries()) {
-			try {
-				g.drawString(Long.toString(e.lot), 100, y);
-				g.drawString(e.use, 220, y);
-				g.drawString(e.size1, 300, y);
-				g.drawString(e.size2, 380, y);
-				g.drawString(e.size3, 460, y);
-				g.drawString(e.d1, 555, y);
-				g.drawString(e.d2, 621, y);
-				g.drawString(e.d3, 687, y);
-				g.drawString(e.d4, 753, y);
-				g.drawString(e.t1, 819, y);
-				g.drawString(e.t2, 885, y);
-				g.drawString(e.t3, 955, y);
-				g.drawString(e.length, 1021, y);
-				g.drawOval(e.bead==1?1145:1195, y-20, 30, 30);
-				g.drawOval(e.flat==1?1225:1270, y-20, 30, 30);
-				g.drawString(e.flatSize, 1315, y);
-				g.drawOval(e.bend==1?1365:1415, y-20, 30, 30);
-				g.drawOval(e.appearance==1?1440:1490, y-20, 30, 30);
-				g.drawString(e.time, 1545, y);
-				
-			} catch (NullPointerException ex) {
-				
+			String [] fields = new String [] {
+				Long.toString(e.lot), 
+				e.use, 
+				e.size1, e.size2, e.size3, 
+				e.d1, e.d2, e.d3, e.d4, e.t1, e.t2, e.t3, 
+				e.length, 
+				Integer.toString(e.bead),
+				Integer.toString(e.flat),
+				e.flatSize, 
+				Integer.toString(e.bend), 
+				Integer.toString(e.appearance), 
+				e.time
+			};
+			int [] x = new int [] {100, 220, 300, 380, 460, 555, 621, 687, 753, 819, 885, 955, 1021, 1145, 1220, 1315, 1365, 1440, 1545};
+			boolean [] isBool = new boolean [] {false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, true, true, false};
+			
+			
+			for (int i = 0; i < fields.length; i++) {
+				if (fields[i] == null) {
+					continue;
+				}
+				if (isBool[i]) {
+					g.drawOval(fields[i].equals("1")?x[i]:x[i]+50, y-20, 25, 25);
+				} else {
+					g.drawString(fields[i],x[i], y);
+				}
 			}
-
 			y+=40;
 		}
 		

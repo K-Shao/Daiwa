@@ -64,6 +64,7 @@ public class Operator {
 					this.currentEntry = e;
 					this.currentLot = lot;
 					this.currentReport = r;
+					this.currentTime = e.time;
 					return true;
 				}
 			}

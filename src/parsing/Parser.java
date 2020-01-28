@@ -31,13 +31,18 @@ public class Parser {
 	}
 	
 	public static String [] parseBasicForm (String input) {
-		String [] arr = input.split("は", 2);
-		if (input.contains("は") && arr[1]!=null) {
-			if (arr[1].contains("です")) {
-				arr[1] = arr[1].split("です")[0];
+		if (input.contains("ha") && input.contains("desu")) {
+			String [] arr = input.split("は", 2);
+			if (input.contains("は") && arr[1]!=null) {
+				if (arr[1].contains("です")) {
+					arr[1] = arr[1].split("です")[0];
+				}
 			}
+			return arr;
+		} else {
+			return new String [] {input};
 		}
-		return arr;
+
 	}
 	
 	private static String [] splitSentences (String input) {
@@ -73,9 +78,13 @@ public class Parser {
 	 * @return Confirmation text to say. 
 	 */
 	public static String interpret(String speech, BonxHeader header) {
+		if (speech.equals("NOT RECOGNIZED")) {
+			return "いいえ";
+		}
+		
 		speech = useHardDictionary(speech);
 		String [] sentences = splitSentences(speech);
-		StringBuilder feedback = new StringBuilder ("はい");
+		StringBuilder feedback = new StringBuilder ();
 		
 		for (int i = 0; i < sentences.length; i++) {
 			String sentence = sentences[i];
@@ -91,6 +100,7 @@ public class Parser {
 				feedback.append("そして");
 			}
 		}
+		System.out.println(feedback.toString());
 		return "はい, " + feedback.toString();
 	}
 }

@@ -113,7 +113,7 @@ public class Sys {
 		Operator operator = getOperatorById(header.getId());
 		//Maybe something like key = Parser.reduce(key) ???
 		if (operator == null) {
-			System.err.println("Operator was null in set operation.");
+			System.err.println("Operator was null in set operation. ID: " + header.getId());
 			return "";
 		}
 		try {
@@ -127,6 +127,7 @@ public class Sys {
 			} else {
 				if (operator.getCurrentEntry() != null) {
 					if (Entry.COLUMNS.contains(key)) {
+						System.out.println("Setting: " + key + " to " + val);
 						DBConn.update(operator, key, val);
 						operator.update(key, val);
 					}

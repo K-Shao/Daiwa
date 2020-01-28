@@ -34,7 +34,7 @@ public class Recognizer {
 			SpeechRecognitionResult result = task.get();
 			
             if (result.getReason() == ResultReason.RecognizedSpeech) {
-                toReturn = "Recognized: " + result.getText();
+                toReturn = result.getText();
             }
             else if (result.getReason() == ResultReason.NoMatch) {
                 toReturn = "NOT RECOGNIZED";

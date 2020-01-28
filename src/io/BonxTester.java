@@ -58,11 +58,11 @@ public class BonxTester implements Runnable {
 		int index = 0;
 		while (true) {
 			
-			if (current == -1 && last.size() >= 3 & this.containsOnly(last, -1)) {
+			if (current == -1 && last.size() >= 5 & this.containsOnly(last, -1)) {
 				break;
 			}
 			last.addLast(current);
-			if (last.size () > 3) {
+			if (last.size () > 5) {
 				last.pollFirst();
 			}
 			current = (byte) stream.read();
@@ -95,11 +95,13 @@ public class BonxTester implements Runnable {
 	@Override
 	public void run() {
 		initBonx();		
+
 		while (true) {	
 			try {
 				Object [] result = testBonx ();
 				String speech = (String) result [0];
 				BonxHeader header = (BonxHeader) result[1];
+				System.out.println("Heard: " + speech);
 				new Actor(speech, header, hs).run();
 			} catch (IOException | InterruptedException | ExecutionException e) {
 				e.printStackTrace();

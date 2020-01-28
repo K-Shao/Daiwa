@@ -61,6 +61,20 @@ public class Entry {
 		if (key.equals("D4")) {
 			d4 = val;
 		}
+		if (key.equals("T1")) {
+			t1 = val;
+		}
+		if (key.equals("T2")) {
+			t2 = val;
+		}
+		if (key.equals("T3")) {
+			t3 = val;
+		}
+		if (key.equals("長さ")) {
+			length = val;
+		}
+
+		
 	}
 
 }

@@ -16,6 +16,7 @@ public class Configuration {
 	private String speechSubscriptionKey;
 	private String serviceRegion;
 	private String language;
+	private String endpointID;
 	
 	public Configuration () throws ConfigurationException {
 		this("./res/config.txt");
@@ -43,6 +44,9 @@ public class Configuration {
 		}
 		speechConfig = SpeechConfig.fromSubscription(speechSubscriptionKey, serviceRegion);
 		speechConfig.setSpeechSynthesisLanguage(language);
+		if (endpointID!=null) {
+			speechConfig.setEndpointId(endpointID);
+		}
 		sourceLanguageConfig = SourceLanguageConfig.fromLanguage(language);
 		
 		if (speechConfig == null) {
@@ -64,6 +68,9 @@ public class Configuration {
 		}
 		if (key.equals("language")) {
 			language = value;
+		}
+		if (key.contentEquals("endpointID")) {
+			endpointID = value;
 		}
 		
 	}

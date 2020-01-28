@@ -49,6 +49,7 @@ public class BonxTester implements Runnable {
 		stream = Channels.newInputStream(channel);
 		
 		BonxHeader header = this.readHeader(stream);
+		System.out.println(header);
 		channel.setSoTimeout(BLOCKING_TIME);
 		
 		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
@@ -70,7 +71,10 @@ public class BonxTester implements Runnable {
 			
 			index++;
 			if (index == header.getBodySize()) {
-				header = this.readHeader(stream);
+				BonxHeader temp = this.readHeader(stream);
+				if (temp.getBodySize() == 1280) {
+					header = temp;
+				}
 				index = 0;
 			}
 		}
@@ -99,8 +103,9 @@ public class BonxTester implements Runnable {
 		while (true) {	
 			try {
 				Object [] result = testBonx ();
-				String speech = (String) result [0];
+				String speech = ((String) result [0]).toLowerCase();
 				BonxHeader header = (BonxHeader) result[1];
+				System.out.println(header);
 				System.out.println("Heard: " + speech);
 				new Actor(speech, header, hs).run();
 			} catch (IOException | InterruptedException | ExecutionException e) {

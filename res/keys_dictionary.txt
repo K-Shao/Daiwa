@@ -1,0 +1,14 @@
+長さ:LENGTH
+D1:D1
+D2:D2
+D3:D3
+D4:D4
+T1:T1
+T2:T2
+T3:T3
+用途:USE
+サイズ:SIZE1
+曲り:BEND
+ビード:BEAD
+外観:APPEARANCE
+扁平:FLAT

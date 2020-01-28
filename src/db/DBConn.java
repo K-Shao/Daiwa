@@ -114,11 +114,10 @@ public class DBConn {
 	}
 
 	public static void update(Operator operator, String key, String val) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("UPDATE ENTRIES SET "+key+" = ? WHERE OPERATOR = ? AND LOT = ? AND TIME = ?;");
+		PreparedStatement ps = connection.prepareStatement("UPDATE ENTRIES SET "+key+" = ? WHERE OPERATOR = ? AND LOT = ?;");
 		ps.setString(1, val);
 		ps.setString(2, operator.getName());
 		ps.setLong(3, Long.parseLong(operator.getCurrentLot()));
-		ps.setString(4, operator.getCurrentTime());
 		ps.executeUpdate();
 	}
 	

@@ -9,6 +9,7 @@ import javax.naming.ConfigurationException;
 
 import db.DBConn;
 import io.BonxHeader;
+import parsing.Parser;
 import production.Configuration;
 
 public class Sys {
@@ -126,10 +127,11 @@ public class Sys {
 				
 			} else {
 				if (operator.getCurrentEntry() != null) {
-					if (Entry.COLUMNS.contains(key)) {
-						System.out.println("Setting: " + key + " to " + val);
-						DBConn.update(operator, key, val);
-						operator.update(key, val);
+					String englishKey = Parser.japaneseKeyToEnglishKey(key);
+					if (Entry.COLUMNS.contains(englishKey)) {
+						System.out.println("Setting: " + englishKey + " to " + val);
+						DBConn.update(operator, englishKey, val);
+						operator.update(englishKey, val);
 					}
 				}
 			}

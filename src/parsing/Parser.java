@@ -12,6 +12,7 @@ import ui.Sys;
 public class Parser {
 	
 	private static Map<String, String> hardDictionary = new HashMap <String, String> ();
+	private static Map<String, String> jpKeysToEnKeys = new HashMap <String, String> ();
 	
 	public static void load() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader("./res/hard_dictionary.txt"));
@@ -19,6 +20,14 @@ public class Parser {
 		while ((line = br.readLine())!=null) {
 			String [] arr = line.split(":");
 			hardDictionary.put(arr[0].trim(), arr[1].trim());
+		}
+		br.close();
+		
+		br = new BufferedReader(new FileReader("./res/keys_dictionary.txt"));
+		line = null;
+		while ((line = br.readLine())!=null) {
+			String [] arr = line.split(":");
+			jpKeysToEnKeys.put(arr[0].trim(), arr[1].trim());
 		}
 		br.close();
 	}
@@ -31,7 +40,7 @@ public class Parser {
 	}
 	
 	public static String [] parseBasicForm (String input) {
-		if (input.contains("ha") && input.contains("desu")) {
+		if (input.contains("は") && input.contains("です")) {
 			String [] arr = input.split("は", 2);
 			if (input.contains("は") && arr[1]!=null) {
 				if (arr[1].contains("です")) {
@@ -102,5 +111,9 @@ public class Parser {
 		}
 		System.out.println(feedback.toString());
 		return "はい, " + feedback.toString();
+	}
+
+	public static String japaneseKeyToEnglishKey(String key) {
+		return jpKeysToEnKeys.get(key);
 	}
 }

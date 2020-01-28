@@ -58,9 +58,16 @@ public class Operator {
 	 * @return
 	 */
 	public boolean setCurrentLot (String lot) {
+		long number;
+		try {
+			number = Long.parseLong(lot);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		
 		for (Report r: reports) {
 			for (Entry e: r.getEntries()) {
-				if (Integer.toString(e.lot).equals(lot)) {
+				if (e.lot == number) {
 					this.currentEntry = e;
 					this.currentLot = lot;
 					this.currentReport = r;

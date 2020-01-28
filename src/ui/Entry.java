@@ -30,25 +30,34 @@ public class Entry {
 		COLUMNS.add("FLAT");
 		COLUMNS.add("BEND");
 		COLUMNS.add("APPEARANCE");
-
-
 	}
 	
 	public String getDate () {
 		return date;
 	}
-	
-	
-	
-	
+
 	public Entry (String date) {
 		this.date = date;
 	}
-
-
-
-
 	public void set(String key, String val) {
+		if (key.equals("USE")) {
+			use = val;
+		}
+		if (key.equals("FLAT")) {
+			flat = val.equals("良")?1:0;
+		}
+		if (key.equals("BEAD")) {
+			flat = val.equals("良")?1:0;
+		}
+		if (key.equals("BEND")) {
+			flat = val.equals("良")?1:0;
+		}
+		if (key.equals("APPEARANCE")) {
+			flat = val.equals("良")?1:0;
+		}
+		if (key.equals("SIZE1")) {
+			size1=val;
+		}
 		if (key.equals("D1")) {
 			d1 = val;
 		}
@@ -70,7 +79,7 @@ public class Entry {
 		if (key.equals("T3")) {
 			t3 = val;
 		}
-		if (key.equals("長さ")) {
+		if (key.equals("LENGTH")) {
 			length = val;
 		}
 

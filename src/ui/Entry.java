@@ -7,8 +7,11 @@ public class Entry {
 	
 	private String date;
 	
-	public int lot, bead, flat, bend, appearance;
+	public long lot;
+	public int bead, flat, bend, appearance;
 	public String use, size1, size2, size3, d1, d2, d3, d4, t1, t2, t3, length, flatSize, time;
+	
+	private boolean isEmpty = true;
 	
 	public static Set<String> COLUMNS = new HashSet<String>();
 	static {
@@ -36,10 +39,12 @@ public class Entry {
 		return date;
 	}
 
-	public Entry (String date) {
+	public Entry (String date, boolean isPreload) {
 		this.date = date;
+		isEmpty = !isPreload;
 	}
 	public void set(String key, String val) {
+		isEmpty = false;
 		if (key.equals("USE")) {
 			use = val;
 		}
@@ -84,6 +89,10 @@ public class Entry {
 		}
 
 		
+	}
+
+	public boolean isEmpty() {
+		return this.isEmpty;
 	}
 
 }

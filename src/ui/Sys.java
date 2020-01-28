@@ -119,7 +119,7 @@ public class Sys {
 		}
 		try {
 			if (key.equals("lot")) {
-				if (operator.setCurrentLot(val)) {
+				if (operator.setCurrentLot(val, header)) {
 					System.out.println("Successful lot set to " + val);
 				} else {
 					System.out.println("Unsuccessful lot set: " + val);

@@ -37,7 +37,7 @@ public class ImageGenerator {
 		int y = 290;
 		for (Entry e: report.getEntries()) {
 			try {
-				g.drawString(Integer.toString(e.lot), 100, y);
+				g.drawString(Long.toString(e.lot), 100, y);
 				g.drawString(e.use, 220, y);
 				g.drawString(e.size1, 300, y);
 				g.drawString(e.size2, 380, y);

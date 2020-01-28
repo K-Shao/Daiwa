@@ -1,10 +1,12 @@
 package ui;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import db.DBConn;
+import io.BonxHeader;
 
 public class Operator {
 	
@@ -57,7 +59,7 @@ public class Operator {
 	 * @param lot
 	 * @return
 	 */
-	public boolean setCurrentLot (String lot) {
+	public boolean setCurrentLot (String lot, BonxHeader header) { //New lots is untested (both new report and not and sweeping)
 		long number;
 		try {
 			number = Long.parseLong(lot);
@@ -76,6 +78,37 @@ public class Operator {
 				}
 			}
 		}
+		if (number < 10000) {
+			return false; //Probably not a real number, if it's four digits or less. 
+		}
+		
+		this.currentReport = null;
+		String currentDate = new SimpleDateFormat("dd-MM-yy").format(header.getTimeMillis());
+		String currentTime = new SimpleDateFormat("HH:ss").format(header.getTimeMillis());
+		for (Report r: reports) {
+			if (r.getDate().equals(currentDate)) {
+				this.currentReport = r;
+			}
+		}
+
+		
+		
+		if (currentReport == null) {			
+			Report r = new Report(currentDate, new ArrayList<Entry>());
+			this.currentReport = r;
+			this.reports.add(r);
+		} else {
+			for (Entry e: this.currentReport.getEntries()) { //Delete any empties. 
+				if (e.isEmpty()) {
+					this.currentReport.getEntries().remove(e);
+				}
+			}
+		}
+		
+		Entry entry = new Entry (currentDate, false);
+		entry.lot = number;
+		entry.time = currentTime;
+		currentReport.getEntries().add(entry);
 		return false;
 	}
 	

@@ -78,7 +78,7 @@ public class DBConn {
 		List<Entry> result = new ArrayList<Entry>();
 		
 		while (rs.next()) {
-			Entry entry = new Entry (date);
+			Entry entry = new Entry (date, true);
 			
 			entry.lot = rs.getInt("LOT");
 			entry.appearance = rs.getInt("APPEARANCE");

@@ -13,6 +13,8 @@ public class Main {
         	
         	DBConn.init();
         	Parser.load();
+        	
+        	
         	HomeScreen hs = new HomeScreen();
         	new Thread(new BonxTester(hs)).run();
 

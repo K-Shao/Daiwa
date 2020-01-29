@@ -12,6 +12,7 @@ import com.microsoft.cognitiveservices.speech.audio.PullAudioInputStreamCallback
 import jnr.unixsocket.UnixSocketAddress;
 import jnr.unixsocket.UnixSocketChannel;
 
+@Deprecated
 public class BonxAudioStreamReader extends PullAudioInputStreamCallback {
 	
 	private InputStream in;

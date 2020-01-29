@@ -105,7 +105,7 @@ public class BonxTester implements Runnable {
 				Object [] result = testBonx ();
 				String speech = ((String) result [0]).toLowerCase();
 				BonxHeader header = (BonxHeader) result[1];
-				System.out.println(header);
+				System.out.println("Go ahead, " + header.getId());
 				System.out.println("Heard: " + speech);
 				new Actor(speech, header, hs).run();
 			} catch (IOException | InterruptedException | ExecutionException e) {

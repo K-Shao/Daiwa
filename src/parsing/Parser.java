@@ -87,7 +87,7 @@ public class Parser {
 	 * @return Confirmation text to say. 
 	 */
 	public static String interpret(String speech, BonxHeader header) {
-		if (speech.equals("NOT RECOGNIZED")) {
+		if (speech.equals("NOT RECOGNIZED") || speech.equals("")) {
 			return "いいえ";
 		}
 		

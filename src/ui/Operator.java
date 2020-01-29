@@ -83,7 +83,7 @@ public class Operator {
 		}
 		
 		this.currentReport = null;
-		String currentDate = new SimpleDateFormat("dd-MM-yy").format(header.getTimeMillis());
+		String currentDate = new SimpleDateFormat("dd-M-yyyy").format(header.getTimeMillis());
 		String currentTime = new SimpleDateFormat("HH:ss").format(header.getTimeMillis());
 		for (Report r: reports) {
 			if (r.getDate().equals(currentDate)) {
@@ -91,16 +91,20 @@ public class Operator {
 			}
 		}
 
-		
-		
 		if (currentReport == null) {			
 			Report r = new Report(currentDate, new ArrayList<Entry>());
 			this.currentReport = r;
 			this.reports.add(r);
+			System.out.println("Adding report");
 		} else {
 			for (Entry e: this.currentReport.getEntries()) { //Delete any empties. 
 				if (e.isEmpty()) {
 					this.currentReport.getEntries().remove(e);
+					try {
+						DBConn.removeEntry(name, e.lot);
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		}
@@ -109,7 +113,16 @@ public class Operator {
 		entry.lot = number;
 		entry.time = currentTime;
 		currentReport.getEntries().add(entry);
-		return false;
+		this.currentEntry = entry;
+		this.currentLot = lot;
+		this.currentTime = currentTime;
+		
+		try {
+			DBConn.addEntry(name, number, currentDate, currentTime);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return true;
 	}
 	
 	public String getCurrentLot () {

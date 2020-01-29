@@ -41,7 +41,8 @@ public class DBConn {
 				+ "FLAT_SIZE TEXT, "
 				+ "BEND INT, "
 				+ "APPEARANCE INT, "
-				+ "TIME TEXT);";
+				+ "TIME TEXT, "
+				+ "DATE TEXT);";
 		statement.execute(query);
 		
 		query = "CREATE TABLE IF NOT EXISTS REPORTS ("
@@ -52,6 +53,7 @@ public class DBConn {
 				+ "SOURCE TEXT PRIMARY KEY NOT NULL,"
 				+ "DEST TEXT NOT NULL);";
 		statement.execute(query);
+
 	}
 	
 	public static ResultSet getOperators() throws SQLException {
@@ -118,6 +120,24 @@ public class DBConn {
 		ps.setString(1, val);
 		ps.setString(2, operator.getName());
 		ps.setLong(3, Long.parseLong(operator.getCurrentLot()));
+		ps.executeUpdate();
+	}
+
+	public static void removeEntry(String operatorName, long lot) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("DELETE FROM ENTRIES WHERE OPERATOR = ? AND LOT = ?");
+		ps.setString(1, operatorName);
+		ps.setLong(2, lot);
+		ps.executeUpdate();
+		
+		
+	}
+
+	public static void addEntry(String name, long number, String currentDate, String currentTime) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO ENTRIES (OPERATOR, LOT, DATE, TIME) VALUES (?,?,?,?);");
+		ps.setString(1, name);
+		ps.setLong(2, number);
+		ps.setString(3, currentDate);
+		ps.setString(4, currentTime);
 		ps.executeUpdate();
 	}
 	

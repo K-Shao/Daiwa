@@ -36,21 +36,40 @@ public class ImageGenerator {
 	private static void drawText(Graphics g, Report report) {
 		int y = 290;
 		for (Entry e: report.getEntries()) {
+			
 			String [] fields = new String [] {
 				Long.toString(e.lot), 
 				e.use, 
 				e.size1, e.size2, e.size3, 
 				e.d1, e.d2, e.d3, e.d4, e.t1, e.t2, e.t3, 
 				e.length, 
-				Integer.toString(e.bead),
-				Integer.toString(e.flat),
+				Integer.toString(e.bead), Integer.toString(e.flat),
 				e.flatSize, 
-				Integer.toString(e.bend), 
-				Integer.toString(e.appearance), 
+				Integer.toString(e.bend), Integer.toString(e.appearance), 
 				e.time
 			};
-			int [] x = new int [] {100, 220, 300, 380, 460, 555, 621, 687, 753, 819, 885, 955, 1021, 1145, 1220, 1315, 1365, 1440, 1545};
-			boolean [] isBool = new boolean [] {false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, true, true, false};
+			int [] x = new int [] {
+					100,
+					220,
+					300, 380, 460, 
+					555, 621, 687, 753, 819, 885, 955, 
+					1021, 
+					1145, 1220,
+					1315, 
+					1365, 1440, 
+					1545
+			};
+			boolean [] isBool = new boolean [] {
+					false, 
+					false, 
+					false, false, false, 
+					false, false, false, false, false, false, false, 
+					false, 
+					true, true, 
+					false, 
+					true, true, 
+					false
+			};
 			
 			
 			for (int i = 0; i < fields.length; i++) {

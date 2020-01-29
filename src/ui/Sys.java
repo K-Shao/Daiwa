@@ -112,6 +112,8 @@ public class Sys {
 	
 	public String set(String key, String val, BonxHeader header) {
 		Operator operator = getOperatorById(header.getId());
+		
+		boolean isBoolean = false;
 		//Maybe something like key = Parser.reduce(key) ???
 		if (operator == null) {
 			System.err.println("Operator was null in set operation. ID: " + header.getId());
@@ -128,6 +130,14 @@ public class Sys {
 			} else {
 				if (operator.getCurrentEntry() != null) {
 					String englishKey = Parser.japaneseKeyToEnglishKey(key);
+					if (val.equals("良")) {
+						val = "1";
+						isBoolean = true;
+					}
+					if (val.equals("否") || val.equals("ひ")) {
+						val = "0";
+						isBoolean = true;
+					}
 					if (Entry.COLUMNS.contains(englishKey)) {
 						System.out.println("Setting: " + englishKey + " to " + val);
 						DBConn.update(operator, englishKey, val);
@@ -141,6 +151,10 @@ public class Sys {
 			System.err.println("SQLException when writing");
 			e.printStackTrace();
 		}
+		if (isBoolean) {
+			val = val.equals("1")?"OK":"NOT OK";
+		}
+		
 		return key + "は" + val + "です";
 
 	}

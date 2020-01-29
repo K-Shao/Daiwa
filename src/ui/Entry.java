@@ -49,16 +49,16 @@ public class Entry {
 			use = val;
 		}
 		if (key.equals("FLAT")) {
-			flat = val.equals("良")?1:0;
+			flat = val.equals("1")?1:0;
 		}
 		if (key.equals("BEAD")) {
-			flat = val.equals("良")?1:0;
+			bead = val.equals("1")?1:0;
 		}
 		if (key.equals("BEND")) {
-			flat = val.equals("良")?1:0;
+			bend = val.equals("1")?1:0;
 		}
 		if (key.equals("APPEARANCE")) {
-			flat = val.equals("良")?1:0;
+			appearance = val.equals("1")?1:0;
 		}
 		if (key.equals("SIZE1")) {
 			size1=val;
@@ -87,8 +87,6 @@ public class Entry {
 		if (key.equals("LENGTH")) {
 			length = val;
 		}
-
-		
 	}
 
 	public boolean isEmpty() {

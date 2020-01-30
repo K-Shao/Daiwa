@@ -1,11 +1,12 @@
-import db.DBConn;
 import io.BonxTester;
-import parsing.Parser;
+import io.DBConn;
+import io.Parser;
 import ui.HomeScreen;
 
 public class Main {
 	
     public static void main(String[] args) {
+    	
         try {
         	DBConn.init();
         	Parser.load();
@@ -14,6 +15,7 @@ public class Main {
         } catch (Exception e) { //Pokemon exception...oops
 			e.printStackTrace();
 		} 
+        
     }
     
 

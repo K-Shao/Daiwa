@@ -7,15 +7,22 @@ import java.util.List;
 
 import javax.naming.ConfigurationException;
 
-import db.DBConn;
 import io.BonxHeader;
-import parsing.Parser;
+import io.DBConn;
+import io.Parser;
 import production.Configuration;
 
+/**
+ * A singleton class that represents the "System". If, in the future, the application expands to handle 
+ * multiple database systems (ie more than one report type), this probably shouldn't be singleton anymore. 
+ * @author kevin
+ *
+ */
 public class Sys {
 	
 	
 	private List<Operator> operators = new ArrayList<Operator>();
+	
 	private Configuration config;
 	public Configuration getConfiguration () {
 		return this.config;

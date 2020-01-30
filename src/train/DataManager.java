@@ -8,6 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/**
+ * Just a little class I wrote to be able to efficiently generate and label some voice data to send to Azure. 
+ * It shouldn't be used in production, hence its deprecation.
+ * @author kevin
+ *
+ */
+@Deprecated
 public class DataManager {
 	
 	public static void generateTransFile (String sortedDirectory, String allDirectory, String utterancesFile) throws IOException {

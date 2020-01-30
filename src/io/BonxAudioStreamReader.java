@@ -12,7 +12,6 @@ import com.microsoft.cognitiveservices.speech.audio.PullAudioInputStreamCallback
 import jnr.unixsocket.UnixSocketAddress;
 import jnr.unixsocket.UnixSocketChannel;
 
-@Deprecated
 /**
  * Yeah so this was my attempt at having bonx.io send the stream data straight to Microsoft Azure. 
  * It doesn't work. You shouldn't instantiate this class, you shouldn't call any of its methods, 
@@ -22,6 +21,7 @@ import jnr.unixsocket.UnixSocketChannel;
  * @author kevin
  *
  */
+@Deprecated
 public class BonxAudioStreamReader extends PullAudioInputStreamCallback {
 	
 	private InputStream in;

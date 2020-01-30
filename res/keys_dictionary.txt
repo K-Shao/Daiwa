@@ -11,4 +11,4 @@ t3:T3
 曲り:BEND
 ビード:BEAD
 外観:APPEARANCE
-扁平:FLAT
+偏平:FLAT

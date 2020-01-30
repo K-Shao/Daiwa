@@ -12,6 +12,11 @@ import java.util.List;
 import ui.Entry;
 import ui.Operator;
 
+/**
+ * A database connector, that exposes certain operations that can be done. Best not to expose the statement object!
+ * @author kevin
+ *
+ */
 public class DBConn {
 	
 	private static final String PATH = "jdbc:sqlite:db/cutoff.db";

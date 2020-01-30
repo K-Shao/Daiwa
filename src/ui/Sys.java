@@ -130,12 +130,13 @@ public class Sys {
 			} else {
 				if (operator.getCurrentEntry() != null) {
 					String englishKey = Parser.japaneseKeyToEnglishKey(key);
+					System.out.println("Key: " + key + " Englsh key: " + englishKey);
 					if (val.equals("良")) {
 						val = "1";
 						isBoolean = true;
 					}
 					if (val.equals("否") || val.equals("ひ")) {
-						val = "0";
+						val = "2";
 						isBoolean = true;
 					}
 					if (Entry.COLUMNS.contains(englishKey)) {

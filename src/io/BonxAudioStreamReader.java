@@ -13,6 +13,15 @@ import jnr.unixsocket.UnixSocketAddress;
 import jnr.unixsocket.UnixSocketChannel;
 
 @Deprecated
+/**
+ * Yeah so this was my attempt at having bonx.io send the stream data straight to Microsoft Azure. 
+ * It doesn't work. You shouldn't instantiate this class, you shouldn't call any of its methods, 
+ * you shoudn't modify the code, honestly you shouldn't even be thinking about this class. 
+ * I'm not sure why I haven't deleted it yet. 
+ * 
+ * @author kevin
+ *
+ */
 public class BonxAudioStreamReader extends PullAudioInputStreamCallback {
 	
 	private InputStream in;
@@ -42,7 +51,6 @@ public class BonxAudioStreamReader extends PullAudioInputStreamCallback {
 	
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
 		try {
 			in.close();
 			out.close();

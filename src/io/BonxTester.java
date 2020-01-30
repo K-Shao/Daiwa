@@ -23,12 +23,23 @@ import production.Recognizer;
 import ui.HomeScreen;
 import ui.Sys;
 
+/**
+ * Bit of a misnomer. Was originally intended to test Bonx, but ended up being used for the actual connection. 
+ * Implements Runnable, and runs an infinite loop, listening for a complete stream from Bonx, and delegating 
+ * an Actor object to deal with what comes in. 
+ * @author kevin
+ *
+ */
 public class BonxTester implements Runnable {
 	
 	private UnixSocketAddress address = null;
 	private InputStream stream = null;
 	
 	public static final int BLOCKING_TIME = 250;
+	/**
+	 * Really shouldn't be final - it should come from a config file or maybe even be settable in the program
+	 * if you want to have multiple rooms. 
+	 */
 	public static final String SOCKET_FILE = "/home/kevin/.bonx/daemons/room_10401/u_12184_ipc.sock";
 	
 	public void initBonx () {

@@ -16,9 +16,11 @@
 ロット:lot
 ロト:lot
 lotnumber:lot
+ノート:lot
 長澤:長さは
 ながさ:長さ
 零:0
 pa:8
+p:t
 テン:.
 十: 

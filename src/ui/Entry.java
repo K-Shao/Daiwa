@@ -49,16 +49,16 @@ public class Entry {
 			use = val;
 		}
 		if (key.equals("FLAT")) {
-			flat = val.equals("1")?1:0;
+			flat = val.equals("1")?1:2;
 		}
 		if (key.equals("BEAD")) {
-			bead = val.equals("1")?1:0;
+			bead = val.equals("1")?1:2;
 		}
 		if (key.equals("BEND")) {
-			bend = val.equals("1")?1:0;
+			bend = val.equals("1")?1:2;
 		}
 		if (key.equals("APPEARANCE")) {
-			appearance = val.equals("1")?1:0;
+			appearance = val.equals("1")?1:2;
 		}
 		if (key.equals("SIZE1")) {
 			size1=val;

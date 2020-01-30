@@ -18,8 +18,8 @@ import javax.sound.sampled.AudioSystem;
 
 import jnr.unixsocket.UnixSocketAddress;
 import jnr.unixsocket.UnixSocketChannel;
-import production.Actor;
 import production.Recognizer;
+import ui.Actor;
 import ui.HomeScreen;
 import ui.Sys;
 

@@ -1,11 +1,10 @@
-package production;
+package ui;
 
 import java.util.concurrent.ExecutionException;
 
 import io.BonxHeader;
 import io.Parser;
-import ui.HomeScreen;
-import ui.Sys;
+import production.Synthesizer;
 
 public class Actor implements Runnable{
 	

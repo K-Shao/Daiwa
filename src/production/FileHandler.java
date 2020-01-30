@@ -5,6 +5,12 @@ import java.io.IOException;
 import javazoom.jl.converter.Converter;
 import javazoom.jl.decoder.JavaLayerException;
 
+/**
+ * I mean, it works, but there's no reason for it...
+ * @author kevin
+ *
+ */
+@Deprecated
 public class FileHandler {
 
 	
